@@ -6,7 +6,7 @@ on:
     - v*
 
 env:
-  IMAGE_NAME: loranmutafov/simple-bastion:${{ github.ref_name }}
+  IMAGE_NAME: loranmutafov/simple-bastion
 
 jobs:
   build:
@@ -23,7 +23,8 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build Docker image
-      run: DOCKER_BUILDKIT=1 docker build . -t $IMAGE_NAME
+      run: DOCKER_BUILDKIT=1 docker build . -t $IMAGE_NAME:${{ github.ref_name }}
+      run: DOCKER_BUILDKIT=1 docker build . -t $IMAGE_NAME:latest
 
     - name: Push Docker image
       run: docker push $IMAGE_NAME
