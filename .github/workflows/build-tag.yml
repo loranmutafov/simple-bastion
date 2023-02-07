@@ -23,9 +23,11 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build Docker image
-      run: DOCKER_BUILDKIT=1 docker build . -t $IMAGE_NAME:${{ github.ref_name }}
-      run: DOCKER_BUILDKIT=1 docker build . -t $IMAGE_NAME:latest
+      run: |
+        DOCKER_BUILDKIT=1 docker build . -t $IMAGE_NAME:${{ github.ref_name }}
+        DOCKER_BUILDKIT=1 docker build . -t $IMAGE_NAME:latest
 
     - name: Push Docker image
-      run: docker push $IMAGE_NAME:${{ github.ref_name }}
-      run: docker push $IMAGE_NAME:latest
+      run: |
+        docker push $IMAGE_NAME:${{ github.ref_name }}
+        docker push $IMAGE_NAME:latest
