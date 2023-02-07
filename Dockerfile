@@ -1,6 +1,6 @@
-FROM alpine:3.11.6
+FROM alpine:3.17.1
 
-LABEL maintainer="Mark <mark.binlab@gmail.com>"
+LABEL maintainer="Loran <hi@loran.dev>"
 
 ARG HOME=/var/lib/bastion
 

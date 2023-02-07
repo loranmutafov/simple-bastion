@@ -1,7 +1,7 @@
 version: "3.6"
 services:
   bastion:
-    image: binlab/bastion
+    image: loranmutafov/bastion
     container_name: bastion
     hostname: bastion
     restart: unless-stopped
@@ -18,7 +18,7 @@ services:
       - bastion
 
   docker-ssh:
-    image: binlab/bastion
+    image: loranmutafov/bastion
     container_name: docker-ssh
     hostname: docker-ssh
     restart: unless-stopped

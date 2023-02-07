@@ -1,13 +1,9 @@
-# Bastion — jump host (gate) based on OpenSSH Server (sshd)
+# A simple, alpine-based bastion with openssh
 
 > A [bastion host](https://en.wikipedia.org/wiki/Bastion_host) is a
 special purpose computer on a network specifically designed and
-configured to withstand attacks. The computer generallyhosts a single
-application, for example a proxy server, and all otherservices are
-removed or limited to reduce the threat to the computer. It is hardened
-in this manner primarily due to its location and purpose,which is
-either on the outside of a firewall or in a demilitarized zone (`DMZ`)
-and usually involves access from untrusted networks orcomputers. 
+configured to withstand attacks. The computer generally hosts a single application, i.e. a proxy server, and all other services are
+removed or limited to reduce the threat to the computer. It is hardened in this manner primarily due to its location and purpose,which is either on the outside of a firewall or in a demilitarized zone (`DMZ`) and usually involves access from untrusted networks and computers. 
 
 ---
 
@@ -15,16 +11,14 @@ and usually involves access from untrusted networks orcomputers.
 
 ## Useful cases
 
-[Bastion](https://hub.docker.com/r/binlab/bastion) is an isolated
-`Docker` image that can work as a link between `Public` and `Private`
-network. It can be also useful for reverse `SSH` tunneling for a host
-behind a `NAT`. This image based on `Alpine Linux` last version.
+[Bastion](https://hub.docker.com/r/loranmutafov/bastion) is an isolated
+`Docker` image that can work as a link between `Public` and `Private` network. It can be also useful for reverse `SSH` tunneling for a host behind a `NAT`. This image is based on `Alpine Linux`.
 
 ## Usage
 
 ###  Describing ENV variables
 
-* `PUBKEY_AUTHENTICATION [true | false]` - Specifies whether public key authentication is allowed. The default is `true`. Note that this option applies to protocol version 2 only.
+* `PUBKEY_AUTHENTICATION [true | false]` - Specifies whether public key authentication is allowed. The default is `true`. This option applies only to protocol version 2.
 
 * `AUTHORIZED_KEYS [/relative/or/not/path/to/file]` - Specifies the file that contains the public keys that can be used for user authentication. `AUTHORIZED_KEYS` may contain tokens of the form `%T` which are substituted during connection setup. The following tokens are defined: `%%` is replaced by a literal `%`, `%h` is replaced by the home directory of the user being authenticated, and `%u` is replaced by the username of that user. After expansion, `AUTHORIZED_KEYS` is taken to be an absolute path or one relative to the user's home directory. The default file is `authorized_keys` and the default home directory is `/var/lib/bastion` and should be present by Docker volume mount by `-v $PWD/authorized_keys:/var/lib/bastion/authorized_keys:ro`.
 
@@ -66,7 +60,7 @@ $ docker run -d \
     -e "X11_FORWARDING=false" \
     -e "TCP_FORWARDING=true" \
     -e "AGENT_FORWARDING=true" \
-    binlab/bastion
+    loranmutafov/bastion
 ```
 
 Docker-compose example:
@@ -75,7 +69,7 @@ Docker-compose example:
 version: "3.6"
 services:
   bastion:
-    image: binlab/bastion
+    image: loranmutafov/bastion
     container_name: bastion
     hostname: bastion
     restart: unless-stopped
@@ -123,7 +117,7 @@ $ sudo usermod -aG docker <your_user>
 ```shell
 $ mkdir $HOME/docker 
 $ cd $HOME/docker
-$ git clone https://github.com/binlab/docker-bastion.git
+$ git clone https://github.com/loranmutafov/docker-bastion.git
 $ cd docker-bastion
 ```
 
@@ -203,3 +197,11 @@ $ ssh -A -J bastion@127.0.0.1:22222 <your_user>@docker-host
 ```shell
 $ ssh -A -J bastion@127.0.0.1:22222 bastion@docker-ssh
 ```
+
+# Original contributor
+
+Thanks to Mark (binlab) for creating a practical bastion without unnecessary bells and whistles.
+
+Source: https://github.com/binlab/docker-bastion
+
+This fork aims to keep it up to date.
