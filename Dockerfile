@@ -26,8 +26,6 @@ RUN addgroup -S -g ${GID} ${GROUP} \
     && mkdir /etc/ssh/auth_principals \
     && echo "bastion" > /etc/ssh/auth_principals/bastion
 
-EXPOSE 22/tcp
-
 VOLUME ${HOST_KEYS_PATH}
 
 ENTRYPOINT ["bastion"]
