@@ -11,6 +11,8 @@ ARG GID=4096
 
 ENV HOST_KEYS_PATH_PREFIX="/usr"
 ENV HOST_KEYS_PATH="${HOST_KEYS_PATH_PREFIX}/etc/ssh"
+ENV BASTION_USER=${USER}
+ENV BASTION_GROUP=${GROUP}
 
 COPY bastion /usr/sbin/bastion
 COPY setup-keys.sh /usr/sbin/setup-keys.sh
