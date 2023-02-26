@@ -1,9 +1,10 @@
 #!/usr/bin/env sh
 
-SETUP_KEYS_PATH="${SETUP_KEYS_PATH:=/etc/bastion/ssh-keys}"
+export SETUP_KEYS_PATH="${SETUP_KEYS_PATH:=/etc/bastion/ssh-keys}"
 if [ -f "$SETUP_KEYS_PATH" ] || [ -L "$SETUP_KEYS_PATH" ]; then
     ./setup-keys.sh
 fi
+unset SETUP_KEYS_PATH
 
 HOST_KEYS_PATH_PREFIX="${HOST_KEYS_PATH_PREFIX:=/}"
 HOST_KEYS_PATH="${HOST_KEYS_PATH:=/etc/ssh}"
