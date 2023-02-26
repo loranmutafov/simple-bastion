@@ -13,6 +13,7 @@ ENV HOST_KEYS_PATH_PREFIX="/usr"
 ENV HOST_KEYS_PATH="${HOST_KEYS_PATH_PREFIX}/etc/ssh"
 
 COPY bastion /usr/sbin/bastion
+COPY setup-keys.sh /usr/sbin/setup-keys.sh
 
 RUN addgroup -S -g ${GID} ${GROUP} \
     && adduser -D -h ${HOME} -s /bin/ash -g "${USER} service" \
@@ -22,6 +23,7 @@ RUN addgroup -S -g ${GID} ${GROUP} \
     && apk add --no-cache openssh-server \
     && echo "Welcome to Bastion!" > /etc/motd \
     && chmod +x /usr/sbin/bastion \
+    && chmod +x /usr/sbin/setup-keys.sh \
     && mkdir -p ${HOST_KEYS_PATH} \
     && mkdir /etc/ssh/auth_principals \
     && echo "bastion" > /etc/ssh/auth_principals/bastion

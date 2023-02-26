@@ -3,6 +3,11 @@
 HOST_KEYS_PATH_PREFIX="${HOST_KEYS_PATH_PREFIX:='/'}"
 HOST_KEYS_PATH="${HOST_KEYS_PATH:='/etc/ssh'}"
 
+SETUP_KEYS_PATH="${SETUP_KEYS_PATH:='/etc/bastion/ssh-keys'}"
+if [ -f "$SETUP_KEYS_PATH" ] || [ -L "$SETUP_KEYS_PATH" ]; then
+    ./setup-keys.sh
+fi
+
 if [ "$PUBKEY_AUTHENTICATION" == "false" ]; then
     CONFIG_PUBKEY_AUTHENTICATION="-o PubkeyAuthentication=no"
 else
