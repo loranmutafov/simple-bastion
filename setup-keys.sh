@@ -10,6 +10,9 @@ EOF
         adduser -D -h "/home/${username}" -s /bin/ash -g "${username} service" \
             -G "${BASTION_GROUP}" "${username}"
 
+        # Disable the user's password, but leave the account unlocked
+        sed -i "s/${username}:!/${username}:*/g" /etc/shadow
+
         mkdir -p "/home/${username}/.ssh"
         echo "${publickey}" > "/home/${username}/.ssh/authorized_keys"
 
