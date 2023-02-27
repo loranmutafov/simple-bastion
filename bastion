@@ -79,6 +79,7 @@ fi
     -o "PasswordAuthentication=no" \
     -o "PermitEmptyPasswords=no" \
     -o "PermitRootLogin=no" \
+    -o "AllowGroups=bastion" \
     $CONFIG_PUBKEY_AUTHENTICATION \
     $CONFIG_AUTHORIZED_KEYS \
     $CONFIG_GATEWAY_PORTS \
