@@ -1,7 +1,13 @@
 #!/usr/bin/env sh
 
-HOST_KEYS_PATH_PREFIX="${HOST_KEYS_PATH_PREFIX:='/'}"
-HOST_KEYS_PATH="${HOST_KEYS_PATH:='/etc/ssh'}"
+export SETUP_KEYS_PATH="${SETUP_KEYS_PATH:=/etc/bastion/ssh-keys}"
+if [ -f "$SETUP_KEYS_PATH" ] || [ -L "$SETUP_KEYS_PATH" ]; then
+    /usr/sbin/setup-keys.sh
+fi
+unset SETUP_KEYS_PATH
+
+HOST_KEYS_PATH_PREFIX="${HOST_KEYS_PATH_PREFIX:=/}"
+HOST_KEYS_PATH="${HOST_KEYS_PATH:=/etc/ssh}"
 
 if [ "$PUBKEY_AUTHENTICATION" == "false" ]; then
     CONFIG_PUBKEY_AUTHENTICATION="-o PubkeyAuthentication=no"
@@ -73,6 +79,7 @@ fi
     -o "PasswordAuthentication=no" \
     -o "PermitEmptyPasswords=no" \
     -o "PermitRootLogin=no" \
+    -o "AllowGroups=$BASTION_GROUP" \
     $CONFIG_PUBKEY_AUTHENTICATION \
     $CONFIG_AUTHORIZED_KEYS \
     $CONFIG_GATEWAY_PORTS \
