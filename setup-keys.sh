@@ -9,7 +9,6 @@ $line
 EOF
         adduser -D -h "/home/${username}" -s /bin/ash -g "${username} service" \
             -G "${BASTION_GROUP}" "${username}"
-        usermod -p '*' $username
 
         mkdir -p "/home/${username}/.ssh"
         echo "${publickey}" > "/home/${username}/.ssh/authorized_keys"
