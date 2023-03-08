@@ -77,16 +77,14 @@ else
 fi
 
 # Verbosity from 0 to 3
-if [ $VERBOSITY_LEVEL = "0" ]; then
-    CONFIG_VERBOSITY_LEVEL="-q"
-elif [ $VERBOSITY_LEVEL = "1" ]; then
-    CONFIG_VERBOSITY_LEVEL="-v"
-elif [ $VERBOSITY_LEVEL = "2" ]; then
-    CONFIG_VERBOSITY_LEVEL="-vv"
-elif [ $VERBOSITY_LEVEL = "3" ]; then
-    CONFIG_VERBOSITY_LEVEL="-vvv"
+if [ $DEBUG_LEVEL = "1" ]; then
+    CONFIG_DEBUG_LEVEL="-d"
+elif [ $DEBUG_LEVEL = "2" ]; then
+    CONFIG_DEBUG_LEVEL="-dd"
+elif [ $DEBUG_LEVEL = "3" ]; then
+    CONFIG_DEBUG_LEVEL="-ddd"
 else
-    CONFIG_VERBOSITY_LEVEL=""
+    CONFIG_DEBUG_LEVEL=""
 fi
 
 # Generate keys if they don't exist
@@ -127,6 +125,6 @@ fi
     $CONFIG_CLIENT_ALIVE_COUNT_MAX \
     $CONFIG_CLIENT_ALIVE_INTERVAL \
     $CONFIG_TCP_KEEP_ALIVE \
-    $CONFIG_VERBOSITY_LEVEL \
+    $CONFIG_DEBUG_LEVEL \
     $CONFIG_LISTEN_ADDRESS \
     $CONFIG_LISTEN_PORT
