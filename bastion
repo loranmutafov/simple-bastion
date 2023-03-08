@@ -76,7 +76,7 @@ else
     CONFIG_TCP_KEEP_ALIVE="-o TCPKeepAlive=yes"
 fi
 
-# Verbosity from 0 to 3
+# Debug level from 1 to 3
 if [ $DEBUG_LEVEL = "1" ]; then
     CONFIG_DEBUG_LEVEL="-d"
 elif [ $DEBUG_LEVEL = "2" ]; then
@@ -85,6 +85,13 @@ elif [ $DEBUG_LEVEL = "3" ]; then
     CONFIG_DEBUG_LEVEL="-ddd"
 else
     CONFIG_DEBUG_LEVEL=""
+fi
+
+# LogLevel
+if [ -n "$LOG_LEVEL" ]; then
+    CONFIG_LOG_LEVEL="-o LogLevel=$LOG_LEVEL"
+else
+    CONFIG_LOG_LEVEL=""
 fi
 
 # Generate keys if they don't exist
@@ -106,6 +113,7 @@ else
 fi
 
 /usr/sbin/sshd -D -e -4 \
+    $CONFIG_DEBUG_LEVEL \
     -o "HostKey=$HOST_KEYS_PATH/ssh_host_rsa_key" \
     -o "HostKey=$HOST_KEYS_PATH/ssh_host_ecdsa_key" \
     -o "HostKey=$HOST_KEYS_PATH/ssh_host_ed25519_key" \
@@ -125,6 +133,6 @@ fi
     $CONFIG_CLIENT_ALIVE_COUNT_MAX \
     $CONFIG_CLIENT_ALIVE_INTERVAL \
     $CONFIG_TCP_KEEP_ALIVE \
-    $CONFIG_DEBUG_LEVEL \
+    $CONFIG_LOG_LEVEL \
     $CONFIG_LISTEN_ADDRESS \
     $CONFIG_LISTEN_PORT
