@@ -70,10 +70,23 @@ else
     CONFIG_CLIENT_ALIVE_INTERVAL=""
 fi
 
-if [ -n "$TCP_KEEP_ALIVE" ]; then
-    CONFIG_TCP_KEEP_ALIVE="-o TCPKeepAlive=$TCP_KEEP_ALIVE"
+if [ "$TCP_KEEP_ALIVE" = "false" ]; then
+    CONFIG_TCP_KEEP_ALIVE="-o TCPKeepAlive=no"
 else
-    CONFIG_TCP_KEEP_ALIVE=""
+    CONFIG_TCP_KEEP_ALIVE="-o TCPKeepAlive=yes"
+fi
+
+# Verbosity from 0 to 3
+if [ $VERBOSITY_LEVEL = "0" ]; then
+    CONFIG_VERBOSITY_LEVEL="-q"
+elif [ $VERBOSITY_LEVEL = "1" ]; then
+    CONFIG_VERBOSITY_LEVEL="-v"
+elif [ $VERBOSITY_LEVEL = "2" ]; then
+    CONFIG_VERBOSITY_LEVEL="-vv"
+elif [ $VERBOSITY_LEVEL = "3" ]; then
+    CONFIG_VERBOSITY_LEVEL="-vvv"
+else
+    CONFIG_VERBOSITY_LEVEL=""
 fi
 
 # Generate keys if they don't exist
@@ -114,5 +127,6 @@ fi
     $CONFIG_CLIENT_ALIVE_COUNT_MAX \
     $CONFIG_CLIENT_ALIVE_INTERVAL \
     $CONFIG_TCP_KEEP_ALIVE \
+    $CONFIG_VERBOSITY_LEVEL \
     $CONFIG_LISTEN_ADDRESS \
     $CONFIG_LISTEN_PORT
