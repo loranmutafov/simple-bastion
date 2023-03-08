@@ -56,6 +56,28 @@ else
     CONFIG_AGENT_FORWARDING="-o AllowAgentForwarding=yes"
 fi
 
+# Connection limits, timeouts and thresholds
+
+if [ -n "$CLIENT_ALIVE_COUNT_MAX" ]; then
+    CONFIG_CLIENT_ALIVE_COUNT_MAX="-o ClientAliveCountMax=$CLIENT_ALIVE_COUNT_MAX"
+else
+    CONFIG_CLIENT_ALIVE_COUNT_MAX=""
+fi
+
+if [ -n "$CLIENT_ALIVE_INTERVAL" ]; then
+    CONFIG_CLIENT_ALIVE_INTERVAL="-o ClientAliveInterval=$CLIENT_ALIVE_INTERVAL"
+else
+    CONFIG_CLIENT_ALIVE_INTERVAL=""
+fi
+
+if [ -n "$TCP_KEEP_ALIVE" ]; then
+    CONFIG_TCP_KEEP_ALIVE="-o TCPKeepAlive=$TCP_KEEP_ALIVE"
+else
+    CONFIG_TCP_KEEP_ALIVE=""
+fi
+
+# Generate keys if they don't exist
+
 if [ ! -f "$HOST_KEYS_PATH/ssh_host_rsa_key" ]; then
     /usr/bin/ssh-keygen -A -f "$HOST_KEYS_PATH_PREFIX"
 fi
@@ -89,5 +111,8 @@ fi
     $CONFIG_TCP_FORWARDING \
     $CONFIG_TRUSTED_USER_CA_KEYS \
     $CONFIG_AUTHORIZED_PRINCIPALS_FILE \
+    $CONFIG_CLIENT_ALIVE_COUNT_MAX \
+    $CONFIG_CLIENT_ALIVE_INTERVAL \
+    $CONFIG_TCP_KEEP_ALIVE \
     $CONFIG_LISTEN_ADDRESS \
     $CONFIG_LISTEN_PORT
